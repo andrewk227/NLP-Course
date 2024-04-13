@@ -30,16 +30,15 @@ def max_probability(current_prob , current_val , best_prob , best_val):
         best_val = current_val
     return best_prob , best_val
 
-def n_gram_generator(n_gram:int , sentence_max_len:int ,  corpus:str, tokens:list):
+def n_gram_generator(n_gram:int , sentence_max_len:int ,  corpus:str, tokens:list , corpus_1d_list:list):
     num_random_words = n_gram-1
     sent = []
 
     n_gram_model = {}
 
-    corpus_splitted = corpus.split(' ')
-    random_choice = random.randint(0 , len(corpus_splitted))
+    random_choice = random.randint(0 , len(corpus_1d_list))
     for index in range(num_random_words):
-        sent.append(corpus_splitted[random_choice + index])
+        sent.append(corpus_1d_list[random_choice + index])
 
     while(len(sent) < sentence_max_len):
         best_prob = 0
@@ -66,7 +65,7 @@ def n_gram_generator(n_gram:int , sentence_max_len:int ,  corpus:str, tokens:lis
 
 def main():
     sentences = brown.sents()
-    limiter = 20
+    limiter = 100
     # input 
     max_sentences_count = int(input("Number of Sentences: "))
 
@@ -85,14 +84,15 @@ def main():
     corpus_string = corpus_string.removesuffix(' ')
 
     corpus_string = preprocess(corpus_string.lower())
-    print(corpus_string)
+    # print(corpus_string)
 
     tokens = tokenize(corpus_string)
+    corpus_1d_list = corpus_string.split(' ')
     
     for index in range(max_sentences_count):
-        output_sentence , n_gram_model= n_gram_generator(n_gram , sentence_max_len , corpus_string , tokens)  
+        output_sentence , n_gram_model= n_gram_generator(n_gram , sentence_max_len , corpus_string , tokens , corpus_1d_list)  
         print(f"Sentence {index}: {output_sentence}")
-        print(f"N-gram Model: {n_gram_model}")
+        # print(f"N-gram Model: {n_gram_model}")
 
 if __name__ == "__main__":
     main()
