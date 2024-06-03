@@ -47,17 +47,17 @@ def n_gram_generator(n_gram:int , sentence_max_len:int ,  corpus:str, tokens:lis
         key = sent[-num_random_words:]
         values = []
 
-        down = ' '.join(key)
+        denominator = ' '.join(key)
         for token in tokens:
-            top = down + ' ' + token + ' '
-            probability = corpus.count(top) / corpus.count(down)
+            numerator = denominator + ' ' + token + ' '
+            probability = corpus.count(numerator) / corpus.count(denominator)
 
             best_prob , best_prob_value =  max_probability(probability  , token , best_prob , best_prob_value)
 
             if probability:
                 values.append(probability) 
 
-        n_gram_model[down] = values
+        n_gram_model[denominator] = values
         sent.append(best_prob_value)
         
     return ' '.join(sent) , n_gram_model
@@ -65,7 +65,7 @@ def n_gram_generator(n_gram:int , sentence_max_len:int ,  corpus:str, tokens:lis
 
 def main():
     sentences = brown.sents()
-    limiter = 100
+    limiter = 1000
     # input 
     max_sentences_count = int(input("Number of Sentences: "))
 
